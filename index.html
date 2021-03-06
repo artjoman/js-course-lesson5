@@ -1,0 +1,122 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+
+        let num1 = '';
+        let num2 = '';
+        let operator = '';
+        let total = '';
+        let buffer = '';
+
+        function handleBuffer(num) {
+            buffer += num; 
+            displayButton(buffer);
+        }
+
+        function handleNumber(num) {
+            if (num1 === '') {
+                num1 = num;
+            } else {
+                num2 = num;
+            }
+            displayButton(num);
+        }
+        function handleOperator(oper) {
+            buffer = '';
+            if (operator === '') {
+                operator = oper;
+            } else {
+                handleTotal();
+                operator = oper;
+            }
+        }
+
+        function handleClear() {
+            num1 = '';
+            num2 = '';
+            operator = '';
+            total = '';
+            buffer = '';
+            displayButton('');
+        }
+
+        function displayButton(btn) {
+            $('.calc-result-input').text(btn);
+        }
+
+        function handleTotal() {
+            switch (operator) {
+                case '+':
+                    total = +num1 + +num2;
+                    displayButton(total);
+                    break;
+                case '-':
+                    total = +num1 - +num2;
+                    displayButton(total);
+                    break;
+                case '*':
+                    total = +num1 * +num2;
+                    displayButton(total);
+                    break;
+                case '/':
+                    total = +num1 / +num2;
+                    displayButton(total);
+                    break;
+            }
+            num1 = total;
+        }
+
+        $(document).ready(function () {
+            $('button').on('click', function (event) {
+                console.log('event', event.target.innerHTML);
+                let btn = event.target.innerHTML;
+                if (btn >= '0' && btn <= '9') {
+                    console.log('number');
+                    handleBuffer(btn);
+                } else if (btn === 'c') {
+                    handleClear();
+                } else {
+                    handleNumber(buffer);
+                    console.log('operator');
+                    handleOperator(btn)
+                }
+            });
+        });
+    </script>
+</head>
+
+<body>
+
+    <div class="calculator-container">
+        <div class="flex-row">
+            <button class="calc-btn">1</button>
+            <button class="calc-btn">2</button>
+            <button class="calc-btn">3</button>
+            <button class="calc-btn">4</button>
+        </div>
+        <div class="flex-row">
+            <button class="calc-btn">5</button>
+            <button class="calc-btn">6</button>
+            <button class="calc-btn">7</button>
+            <button class="calc-btn">8</button>
+        </div>
+        <div class="flex-row">
+            <button class="calc-btn">9</button>
+            <button class="calc-btn">0</button>
+            <button class="calc-btn">+</button>
+            <button class="calc-btn">-</button>
+        </div>
+        <div class="flex-row">
+            <button class="calc-btn">*</button>
+            <button class="calc-btn">/</button>
+            <button class="calc-btn">=</button>
+            <button class="calc-btn">c</button>
+        </div>
+    </div>
+    <div class="calc-result-input"></div>
+</body>
+
+</html>
